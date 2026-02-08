@@ -3,7 +3,6 @@ data/cheq.db
 
 # Outputs
 outputs/*.csv
-outputs/visualizations/*.png
 
 # Python
 __pycache__/
