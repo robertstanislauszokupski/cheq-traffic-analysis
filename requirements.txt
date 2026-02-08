@@ -1,0 +1,13 @@
+# CHEQ Analysis Project Dependencies
+# Python 3.11+
+
+# Data Analysis & Visualization
+pandas>=2.0.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Jupyter Notebook (optional - only needed for DEMO.ipynb)
+jupyter>=1.0.0
+ipython>=8.0.0
+
+# Note: sqlite3 is included with Python standard library
