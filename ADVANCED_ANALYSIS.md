@@ -14,12 +14,19 @@ This document provides a quick reference for the new advanced analysis features 
 5. **Query 8** - Hourly Pattern Analysis
 6. **Query 9** - Daily Pattern Analysis
 
+### Notebook Drill-Down (DEMO.ipynb Part 8)
+7. **Geo vs Device Timezone Mismatch** - Flags high-risk mismatches
+8. **UTM Source Invalid Rates** - Highlights suspicious attribution sources
+9. **Click ID Presence** - Compares invalid rates by click id presence
+
+*Note:* Drill-down tables apply a minimum 25-event threshold to avoid small-sample noise.
+
 ### CSV Outputs
-7. **asn_analysis.csv** - Top 30 ASNs by invalid traffic
-8. **user_agent_analysis.csv** - Browser/bot detection patterns
-9. **hourly_patterns.csv** - Attack timing by hour (24-hour)
-10. **daily_patterns.csv** - Day-over-day trends
-11. **roi_analysis.csv** - Cost calculator export (generated on demand)
+10. **asn_analysis.csv** - Top 30 ASNs by invalid traffic
+11. **user_agent_analysis.csv** - Browser/bot detection patterns
+12. **hourly_patterns.csv** - Attack timing by hour (24-hour)
+13. **daily_patterns.csv** - Day-over-day trends
+14. **roi_analysis.csv** - Cost calculator export (generated on demand)
 
 ---
 
@@ -159,4 +166,3 @@ outputs/
 
 ---
 
-*This document was created as part of the advanced analysis enhancement for the CHEQ interview project.*

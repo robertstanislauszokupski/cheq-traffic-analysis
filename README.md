@@ -63,8 +63,7 @@ cheq-interview/
 │   ├── roi_analysis.csv                     # Cost calculator outputs
 │   └── visualizations/                      # Charts and graphs (PNG)
 │       ├── threat_distribution.png
-│   DEMO.ipynb                               # Interactive analysis notebook
-├──     ├── funnel_analysis.png
+│       ├── funnel_analysis.png
 │       ├── hourly_patterns.png
 │       ├── daily_trends.png
 │       ├── paid_traffic_comparison.png
@@ -72,6 +71,7 @@ cheq-interview/
 ├── tests/                                   # Test and utility scripts
 │   ├── check_data.py                        # Data validation utility
 │   └── test_timestamp.py                    # Timestamp parsing tests
+├── DEMO.ipynb                               # Interactive analysis notebook
 ├── queries.py                               # Centralized SQL queries
 ├── db_manager.py                            # Database connection manager
 ├── config.py                                # Project configuration
@@ -93,8 +93,7 @@ cheq-interview/
 - **db_manager.py**: Centralized database operations with error handling and cross-platform paths
 - **config.py**: All file paths and settings in one location
 - **run_all.py**: Automated pipeline to run entire analysis workflow
-- **requirements.txt**: Python package dependencies (pandas, matplotlib, seaborn, jupyter)analysis workflow
-- **requirements.txt**: Python package dependencies
+- **requirements.txt**: Python package dependencies (pandas, matplotlib, seaborn, jupyter)
 - **.gitignore**: Excludes database and output files from version control
 
 ---
@@ -103,8 +102,7 @@ cheq-interview/
 
 - **Database:** SQLite 3
 - **Libraries:** pandas, matplotlib, seaborn (data analysis & visualization)
-- **Notebook:** Jupyter (for interactive analysiexport)
-- **Libraries:** matplotlib (for visualizations)
+- **Notebook:** Jupyter (interactive analysis and presentations)
 - **IDE:** Visual Studio Code
 - **SQL Dialect:** SQLite-compatible SQL
 
@@ -116,7 +114,7 @@ cheq-interview/
 
 - Python 3.11 or higher
 - SQLite3 (included with Python)
-- VS Code (opti
+- VS Code (optional)
 
 **Option A: Interactive Notebook (Recommended for Presentations)**
 
@@ -130,7 +128,7 @@ jupyter notebook DEMO.ipynb
 
 Then run all cells to see the complete analysis with visualizations.
 
-**Option B: Automated Script Pipeline**ended for query execution)
+**Option B: Automated Script Pipeline**
 
 ### Quick Start (Automated)
 
@@ -269,14 +267,23 @@ Establishes baseline risk metrics for the trial period.
 ### Query 2: Funnel Exposure by Page
 Identifies which pages in the customer journey are most vulnerable to invalid traffic.
 
-### Query 3: Paid Traffic Risk
-**Critical for ROI discussions** - quantifies wasted ad spend by channel.
+### Query 3: Paid vs Organic vs Direct Traffic
+**Critical for ROI discussions** - quantifies wasted ad spend by paid channels while separating organic and direct intent.
 
 ### Query 4: Threat Taxonomy
 Breaks down invalid traffic by threat group and type for security prioritization.
 
 ### Query 5: Geo/Device Timezone Mismatches
 Detects VPN usage, emulators, and automation signals through timezone analysis.
+
+### Notebook Drill-Down (Part 8)
+The demo notebook adds a focused drill-down on malicious traffic using:
+- Geo vs device timezone mismatches
+- User agent patterns
+- UTM source invalid rates
+- Click ID presence
+
+To reduce small-sample noise, drill-down tables filter to rows with at least 25 events.
 
 ### Advanced Analysis (Queries 6-9)
 
@@ -311,13 +318,15 @@ Six presentation-ready charts are available in [`outputs/visualizations/`](outpu
 2. **funnel_analysis.png** - Top 10 pages ranked by invalid traffic volume
 3. **hourly_patterns.png** - Traffic patterns by hour revealing attack window (20-23 UTC)
 4. **daily_trends.png** - Day-over-day volume and invalid traffic percentage
-5. **paid_traffic_comparison.png** - Paid vs organic traffic analysis with invalid rates
+5. **paid_traffic_comparison.png** - Paid vs organic/direct traffic analysis with invalid rates
 6. **top_asns.png** - Top 10 ISPs/hosting providers generating invalid traffic
 
 To regenerate visualizations:
 ```bash
 python create_visualizations.py
-```Infrastructure Threats
+```
+
+### Infrastructure Threats
 - **AS-CHOOPA and AS-BLAZINGSEO** (hosting providers): 17,804 invalid events combined - indicating server-based bot attacks
 - **Coordinated attack pattern**: 3x traffic spike during hours 20-23 UTC
 - **July 5th attack**: 89.74% invalid rate suggests DDoS or scraping campaign
@@ -342,14 +351,6 @@ The calculator provides:
 - Implement enhanced bot detection for malicious bot traffic (43% of threats)
 - Block or rate-limit traffic from AS-CHOOPA and AS-BLAZINGSEO ASNs
 - Investigate traffic spikes during 20-23 UTC hours
-### Query 3: Paid Traffic Risk
-**Critical for ROI discussions** - quantifies wasted ad spend by channel.
-
-### Query 4: Threat Taxonomy
-Breaks down invalid traffic by threat group and type for security prioritization.
-
-### Query 5: Geo/Device Timezone Mismatches
-Detects VPN usage, emulators, and automation signals through timezone analysis.
 
 ---
 

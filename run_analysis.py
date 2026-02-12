@@ -34,9 +34,9 @@ def main():
         url = row[0][:47] + '...' if len(row[0]) > 50 else row[0]
         print(f"{url:<50} {row[1]:<10,} {row[2]:<10,} {row[3]:<8}%")
     
-    # Query 3: Paid Traffic Risk
+    # Query 3: Traffic Source Risk
     print("\n" + "="*80)
-    print("3. PAID TRAFFIC RISK (Wasted Ad Spend)")
+    print("3. TRAFFIC SOURCE RISK (Paid, Organic, Direct)")
     print("="*80)
     rows = db.execute_query(queries.PAID_TRAFFIC_RISK)
     print(f"{'Source':<20} {'Total':<12} {'Invalid':<12} {'%':<8}")

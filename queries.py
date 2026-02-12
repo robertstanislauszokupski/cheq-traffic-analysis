@@ -43,7 +43,8 @@ SELECT
   CASE
     WHEN gclid IS NOT NULL AND gclid != '' THEN 'Google Ads'
     WHEN msclkid IS NOT NULL AND msclkid != '' THEN 'Bing Ads'
-    ELSE 'Organic / Direct'
+    WHEN parsed_source IS NOT NULL AND parsed_source != '' THEN 'Organic'
+    ELSE 'Direct'
   END AS traffic_source,
   COUNT(*) AS total_events,
   SUM(CASE WHEN {invalid_condition()} THEN 1 ELSE 0 END) AS invalid_events,
@@ -86,7 +87,8 @@ WHERE ip_timezone != device_timezone
   AND ip_timezone IS NOT NULL 
   AND device_timezone IS NOT NULL
 GROUP BY ip_timezone, device_timezone
-ORDER BY events DESC
+HAVING COUNT(*) >= 25
+ORDER BY invalid_pct DESC, events DESC
 LIMIT 20
 """
 
@@ -167,6 +169,43 @@ GROUP BY date
 ORDER BY date
 """
 
+UTM_SOURCE_INVALID = f"""
+SELECT
+  CASE
+    WHEN parsed_source IS NULL OR parsed_source = '' THEN 'Direct / None'
+    ELSE parsed_source
+  END AS utm_source,
+  COUNT(*) AS total_events,
+  SUM(CASE WHEN {invalid_condition()} THEN 1 ELSE 0 END) AS invalid_events,
+  ROUND(
+    100.0 * SUM(CASE WHEN {invalid_condition()} THEN 1 ELSE 0 END) / COUNT(*),
+    2
+  ) AS invalid_pct
+FROM cheq
+GROUP BY utm_source
+HAVING COUNT(*) >= 25
+ORDER BY invalid_pct DESC, invalid_events DESC
+LIMIT 10
+"""
+
+CLICK_ID_INVALID = f"""
+SELECT
+  CASE
+    WHEN gclid IS NOT NULL AND gclid != '' THEN 'gclid present'
+    WHEN msclkid IS NOT NULL AND msclkid != '' THEN 'msclkid present'
+    ELSE 'No click id'
+  END AS click_id_type,
+  COUNT(*) AS total_events,
+  SUM(CASE WHEN {invalid_condition()} THEN 1 ELSE 0 END) AS invalid_events,
+  ROUND(
+    100.0 * SUM(CASE WHEN {invalid_condition()} THEN 1 ELSE 0 END) / COUNT(*),
+    2
+  ) AS invalid_pct
+FROM cheq
+GROUP BY click_id_type
+ORDER BY invalid_events DESC
+"""
+
 # ============================================================================
 # VISUALIZATION QUERIES
 # ============================================================================
@@ -207,4 +246,6 @@ QUERY_HEADERS = {
     'user_agent': ['User Agent Type', 'Total Events', 'Invalid Events', 'Invalid %'],
     'hourly_patterns': ['Hour (24h)', 'Total Events', 'Invalid Events', 'Invalid %'],
     'daily_patterns': ['Date', 'Total Events', 'Invalid Events', 'Invalid %'],
+    'utm_source_invalid': ['UTM Source', 'Total Events', 'Invalid Events', 'Invalid %'],
+    'click_id_invalid': ['Click ID Type', 'Total Events', 'Invalid Events', 'Invalid %'],
 }
